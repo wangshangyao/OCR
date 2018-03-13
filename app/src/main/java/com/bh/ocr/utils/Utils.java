@@ -25,7 +25,7 @@ import okhttp3.Response;
 public class Utils {
 
     private static String string;
-
+    //POST 请求
     public static String doPost(String requestUrl, Map<String,Object> requestMap){
         OkHttpClient client = new OkHttpClient();
         FormBody formBody = new FormBody.Builder()
