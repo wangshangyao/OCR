@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * MainActivity
+ * 选取照片 上传
+ * */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView id_z;

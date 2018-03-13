@@ -19,7 +19,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2018/3/10.
+ * 工具类
+ * dopost（） post请求
+ * bitmapToBase64（） bitmap转base64格式
+ * base64ToBitmap（） base64转bitmap格式
  */
 
 public class Utils {

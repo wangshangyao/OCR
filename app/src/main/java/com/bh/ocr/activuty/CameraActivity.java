@@ -26,6 +26,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
+/**
+ * 照相机界面
+ * 拍照并且回传给MainActivity
+ * */
 public class CameraActivity extends AppCompatActivity{
 
     private final String TAG = "wsy";
