@@ -15,9 +15,40 @@
         app:layout_widthPercent="70%"
         android:src="@mipmap/k3"
         android:layout_centerInParent="true"
-        android:layout_margin="60dp"
+        android:scaleType="fitXY"
         />
-
+    <ImageView
+        android:id="@+id/fill1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/img_k"
+        android:background="#fff"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/fill2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/img_k"
+        android:background="#fff"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/fill3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/img_k"
+        android:background="#fff"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/fill4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/img_k"
+        android:background="#fff"
+        android:visibility="gone"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
