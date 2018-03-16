@@ -38,6 +38,7 @@ public class CameraActivity extends AppCompatActivity{
     private boolean isPreview = false;
 
     private ImageView img_k;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +65,10 @@ public class CameraActivity extends AppCompatActivity{
                     @Override
                     public void onPictureTaken(byte[] data, Camera camera) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        Bitmap bitmapzip = Utils.compressImage(bitmap);
                         DataEvent d = new DataEvent();
                         d.setType(CameraActivity.this.getIntent().getIntExtra("type",-1));
-                        d.setImg(Utils.bitmapToBase64(bitmap));
+                        d.setImg(Utils.bitmapToBase64(bitmapzip));
                         EventBus.getDefault().post(d);
                         finish();
                     }
@@ -86,6 +88,8 @@ public class CameraActivity extends AppCompatActivity{
 //        }
 
     }
+
+
 
     @Override
     protected void onPause() {
