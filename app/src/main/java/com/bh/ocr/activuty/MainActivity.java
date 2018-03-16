@@ -1,9 +1,12 @@
 package com.bh.ocr.activuty;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,11 +20,14 @@ import android.widget.Toast;
 import com.bh.ocr.R;
 import com.bh.ocr.api.Api;
 import com.bh.ocr.event.DataEvent;
+import com.bh.ocr.presenter.Presenter;
 import com.bh.ocr.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +37,7 @@ import java.util.Map;
  * MainActivity
  * 选取照片 上传
  * */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,IView{
 
     private ImageView id_z;
     private ImageView id_f;
@@ -129,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     map.put("img1",list_img1);
                     map.put("img2",list_img2);
                     map.put("appid",ANDROID_ID);
-                    Utils.doPost(Api.getCard,map);
+                    Presenter p = new Presenter(this);
+                    p.connect(Api.getCard,map);
                 }else if(img1 == null || img1.equals("")){
                     Toast.makeText(MainActivity.this,"身份证正面不能为空",Toast.LENGTH_SHORT).show();
                 }else if(img2 == null || img2.equals("")){
@@ -138,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
+    //权限回调
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -157,4 +164,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler h = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 1){
+                String s = (String) msg.obj;
+                try {
+                    JSONObject js = new JSONObject(s);
+                    int exist = js.getInt("exist");
+                    if(exist == 0){
+                        Toast.makeText(MainActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+                        img1 = null;
+                        img2 = null;
+                        id_z.setImageResource(R.mipmap.id_z);
+                        id_f.setImageResource(R.mipmap.id_f);
+                        id_z_t.setVisibility(View.VISIBLE);
+                        id_f_t.setVisibility(View.VISIBLE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+    @Override
+    public void showView(String s) {
+        Message msg = new Message();
+        msg.what = 1;
+        msg.obj = s;
+        h.sendMessage(msg);
+    }
+
 }

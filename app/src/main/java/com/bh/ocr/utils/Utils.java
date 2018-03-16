@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import com.bh.ocr.activuty.MainActivity;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
@@ -27,11 +28,12 @@ import okhttp3.Response;
  * base64ToBitmap（） base64转bitmap格式
  */
 
-public class Utils {
+public class Utils implements IModel{
 
     private static String string;
+
     //POST 请求
-    public static String doPost(String requestUrl, Map<String,Object> requestMap){
+    public String doPost(String requestUrl, Map<String,Object> requestMap, final myCallBack m){
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -54,6 +56,7 @@ public class Utils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 string = response.body().string();
+                m.getCall(string);
                 Log.i("wsy",string);
             }
         });
