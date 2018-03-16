@@ -6,10 +6,6 @@ import com.bh.ocr.utils.Utils;
 
 import java.util.Map;
 
-/**
- * Created by 2 on 2018/3/16.
- */
-
 public class Presenter {
     private IView iv;
     private IModel im;
