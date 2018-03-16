@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -114,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn:
+                //获取设备的唯一标识
+                String ANDROID_ID = Settings.System.getString(getContentResolver(), Settings.System.ANDROID_ID);
+
                 //非空判断
                 if(img1 != null && !img1.equals("") && img2 != null && !img2.equals("") ){
                     List list_img1 = new ArrayList();
@@ -121,10 +125,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     List list_img2 = new ArrayList();
                     list_img2.add(img2);
                     Map<String,Object> map = new HashMap<>();
-                    map.put("id","232325199803262813");
                     map.put("type",5);
-                    map.put("imgList",list_img1);
-                    map.put("appid","test001");
+                    map.put("img1",list_img1);
+                    map.put("img2",list_img2);
+                    map.put("appid",ANDROID_ID);
                     Utils.doPost(Api.getCard,map);
                 }else if(img1 == null || img1.equals("")){
                     Toast.makeText(MainActivity.this,"身份证正面不能为空",Toast.LENGTH_SHORT).show();
