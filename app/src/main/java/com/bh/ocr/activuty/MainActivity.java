@@ -183,6 +183,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         id_f.setImageResource(R.mipmap.id_f);
                         id_z_t.setVisibility(View.VISIBLE);
                         id_f_t.setVisibility(View.VISIBLE);
+                    }else if(exist == 1){
+                        Toast.makeText(MainActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
+                        img1 = null;
+                        img2 = null;
+                        id_z.setImageResource(R.mipmap.id_z);
+                        id_f.setImageResource(R.mipmap.id_f);
+                        id_z_t.setVisibility(View.VISIBLE);
+                        id_f_t.setVisibility(View.VISIBLE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
