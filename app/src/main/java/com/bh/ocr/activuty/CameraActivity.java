@@ -38,7 +38,6 @@ public class CameraActivity extends AppCompatActivity{
     private boolean isPreview = false;
 
     private ImageView img_k;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
