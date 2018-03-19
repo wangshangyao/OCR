@@ -1,5 +1,6 @@
 package com.bh.ocr.api;
 
 public class Api {
-    public static String getCard = "http://192.168.1.206:8080/KFwebService/face/getCard.action";
+    //上传图片接口
+    public static String getCard = "http://101.200.55.67:3389/KFwebService/face/getCard.action";
 }
