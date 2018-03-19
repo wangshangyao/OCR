@@ -5,7 +5,9 @@ import com.bh.ocr.utils.IModel;
 import com.bh.ocr.utils.Utils;
 
 import java.util.Map;
-
+/**
+ * MVP Presenter层
+ * */
 public class Presenter {
     private IView iv;
     private IModel im;

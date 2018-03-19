@@ -22,6 +22,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
+ * MVP Model层接口的实现类
+ *
  * 工具类
  * dopost（） post请求
  * bitmapToBase64（） bitmap转base64格式
@@ -39,7 +41,7 @@ public class Utils implements IModel{
                 .readTimeout(20, TimeUnit.SECONDS)
                 .build();
         FormBody formBody = new FormBody.Builder()
-                .add("params", new Gson().toJson(requestMap).toString())
+                .add("params", new Gson().toJson(requestMap))
                 .build();
         Request request = new Request.Builder()
                 .url(requestUrl)
@@ -57,7 +59,6 @@ public class Utils implements IModel{
             public void onResponse(Call call, Response response) throws IOException {
                 string = response.body().string();
                 m.getCall(string);
-                Log.i("wsy",string);
             }
         });
         return string;

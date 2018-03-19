@@ -3,7 +3,7 @@ package com.bh.ocr.utils;
 import java.util.Map;
 
 /**
- * Created by 2 on 2018/3/16.
+ * MVP Model层接口
  */
 
 public interface IModel {

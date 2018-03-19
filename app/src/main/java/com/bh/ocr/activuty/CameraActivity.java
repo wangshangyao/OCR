@@ -32,8 +32,6 @@ import java.io.IOException;
  * */
 public class CameraActivity extends AppCompatActivity{
 
-    private final String TAG = "wsy";
-
     private Camera camera;
     private boolean isPreview = false;
 
@@ -108,7 +106,7 @@ public class CameraActivity extends AppCompatActivity{
     private SurfaceHolder.Callback mSurfaceCallback = new SurfaceHolder.Callback() {
 
         /**
-         *  在 Surface 首次创建时被立即调用：活得叫焦点时。一般在这里开启画图的线程
+         *  在 Surface 首次创建时被立即调用：获得焦点时。一般在这里开启画图的线程
          * @param surfaceHolder 持有当前 Surface 的 SurfaceHolder 对象
          */
         @Override
@@ -133,7 +131,7 @@ public class CameraActivity extends AppCompatActivity{
                 camera.startPreview();//开始预览
                 isPreview = true;//设置是否预览参数为真
             } catch (IOException e) {
-                Log.e(TAG, e.toString());
+                Log.e("surfaceCreated", e.toString());
             }
         }
 

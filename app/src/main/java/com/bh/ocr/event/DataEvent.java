@@ -1,7 +1,7 @@
 package com.bh.ocr.event;
 
 /**
- * Created by Administrator on 2018/3/10.
+ * EventBus 自定义事件
  */
 
 public class DataEvent {
