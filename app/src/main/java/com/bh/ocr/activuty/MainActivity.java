@@ -10,6 +10,7 @@ import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bh.ocr.R;
+import com.bh.ocr.View.CustomDialog;
+import com.bh.ocr.View.ToastUtil;
 import com.bh.ocr.api.Api;
 import com.bh.ocr.event.DataEvent;
 import com.bh.ocr.presenter.Presenter;
@@ -28,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String img1 = "";
     private String img2 = "";
     private Button btn;
+
+    private AlertDialog dialog;
+    private CustomDialog custom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         id_z_t = findViewById(R.id.id_z_t);
         id_f_t = findViewById(R.id.id_f_t);
+
+        dialog = new AlertDialog.Builder(MainActivity.this).create();
     }
     //点击事件
     @Override
@@ -126,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //非空判断
                 if(img1 != null && !img1.equals("") && img2 != null && !img2.equals("") ){
+                    custom = new CustomDialog(this,R.style.CustomDialog);
+                    custom.show();
                     List list_img1 = new ArrayList();
                     list_img1.add(img1);
                     List list_img2 = new ArrayList();
@@ -167,30 +178,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @SuppressLint("HandlerLeak")
     private Handler h = new Handler(){
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
             if(msg.what == 1){
                 String s = (String) msg.obj;
+
                 try {
                     JSONObject js = new JSONObject(s);
                     int exist = js.getInt("exist");
                     if(exist == 0){
-                        Toast.makeText(MainActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+                        custom.dismiss();
+
+                        ToastUtil toastUtil = new ToastUtil(MainActivity.this, R.layout.toast_center, "上传成功");
+                        toastUtil.show();
+
                         img1 = null;
                         img2 = null;
                         id_z.setImageResource(R.mipmap.id_z);
                         id_f.setImageResource(R.mipmap.id_f);
                         id_z_t.setVisibility(View.VISIBLE);
                         id_f_t.setVisibility(View.VISIBLE);
+
                     }else if(exist == 1){
-                        Toast.makeText(MainActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
+                        custom.dismiss();
+
+                        ToastUtil toastUtil = new ToastUtil(MainActivity.this, R.layout.toast_center, "上传失败");
+                        toastUtil.show();
+
                         img1 = null;
                         img2 = null;
                         id_z.setImageResource(R.mipmap.id_z);
                         id_f.setImageResource(R.mipmap.id_f);
                         id_z_t.setVisibility(View.VISIBLE);
                         id_f_t.setVisibility(View.VISIBLE);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -36,6 +36,7 @@ public class CameraActivity extends AppCompatActivity{
     private boolean isPreview = false;
 
     private ImageView img_k;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,8 +120,8 @@ public class CameraActivity extends AppCompatActivity{
                 WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
                 Display display  = wm.getDefaultDisplay();//得到当前屏幕
                 Camera.Parameters parameters = camera.getParameters();//得到摄像头的参数
-                parameters.setJpegQuality(85);//设置照片的质量
-                parameters.setPictureSize(display.getHeight(), display.getWidth());//设置照片的大小，默认是和     屏幕一样大
+                parameters.setJpegQuality(100);//设置照片的质量
+                //parameters.setPictureSize(display.getHeight(), display.getWidth());//设置照片的大小，默认是和     屏幕一样大
                 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);// 连续对焦模式
                 camera.setParameters(parameters);
 
@@ -134,6 +135,7 @@ public class CameraActivity extends AppCompatActivity{
                 Log.e("surfaceCreated", e.toString());
             }
         }
+
 
         /**
          *  在 Surface 格式 和 大小发生变化时会立即调用，可以在这个方法中更新 Surface
