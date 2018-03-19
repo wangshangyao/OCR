@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         id_f_t = findViewById(R.id.id_f_t);
 
         dialog = new AlertDialog.Builder(MainActivity.this).create();
+        custom = new CustomDialog(this,R.style.CustomDialog);
     }
     //点击事件
     @Override
@@ -135,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //非空判断
                 if(img1 != null && !img1.equals("") && img2 != null && !img2.equals("") ){
-                    custom = new CustomDialog(this,R.style.CustomDialog);
                     custom.show();
                     List list_img1 = new ArrayList();
                     list_img1.add(img1);

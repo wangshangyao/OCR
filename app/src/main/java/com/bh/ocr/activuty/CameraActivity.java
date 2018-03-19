@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,20 +32,23 @@ import java.io.IOException;
  * 照相机界面
  * 拍照并且回传给MainActivity
  * */
-public class CameraActivity extends AppCompatActivity{
+public class CameraActivity extends AppCompatActivity implements Camera.PreviewCallback{
 
     private Camera camera;
     private boolean isPreview = false;
+    private boolean isAlis = false;
+    private ImageView ex;
+    private SurfaceView mSurfaceView;
+    private SurfaceHolder mSurfaceHolder;
 
-    private ImageView img_k;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        SurfaceView mSurfaceView = findViewById(R.id.sv);
+        mSurfaceView = findViewById(R.id.sv);
         // 获得 SurfaceHolder 对象
-        SurfaceHolder mSurfaceHolder = mSurfaceView.getHolder();
+        mSurfaceHolder = mSurfaceView.getHolder();
 
         // 设置 Surface 格式
         // 参数： PixelFormat中定义的 int 值 ,详细参见 PixelFormat.java
@@ -55,15 +60,28 @@ public class CameraActivity extends AppCompatActivity{
         // 添加 Surface 的 callback 接口
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
+        ex = findViewById(R.id.ex_box);
+
         Button btn = findViewById(R.id.btn_camera);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isAlis = true;
+//                WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
+//                Display display  = wm.getDefaultDisplay();//得到当前屏幕
+
+//                ViewGroup.LayoutParams layoutParams = mSurfaceView.getLayoutParams();
+//                layoutParams.width = (int) (display.getWidth()*0.6);
+//                layoutParams.height = (int) (display.getHeight()*0.6);
+//                mSurfaceView.setLayoutParams(layoutParams);
+//                ex.setVisibility(View.INVISIBLE);
+
                 camera.takePicture(null, null, new Camera.PictureCallback() {
                     @Override
                     public void onPictureTaken(byte[] data, Camera camera) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                         Bitmap bitmapzip = Utils.compressImage(bitmap);
+
                         DataEvent d = new DataEvent();
                         d.setType(CameraActivity.this.getIntent().getIntExtra("type",-1));
                         d.setImg(Utils.bitmapToBase64(bitmapzip));
@@ -73,18 +91,6 @@ public class CameraActivity extends AppCompatActivity{
                 });
             }
         });
-
-        img_k = findViewById(R.id.img_k);
-
-//        Intent intent = getIntent();
-//        if(intent.getIntExtra("type",-1) != -1){
-//            if(intent.getIntExtra("type",-1) == 0){
-//                img_k.setImageResource(R.mipmap.k);
-//            }else if(intent.getIntExtra("type",-1) == 1){
-//                img_k.setImageResource(R.mipmap.k2);
-//            }
-//        }
-
     }
 
 
@@ -115,15 +121,18 @@ public class CameraActivity extends AppCompatActivity{
             try {
                 // Camera,open() 默认返回的后置摄像头信息
                 camera = Camera.open();//打开硬件摄像头，这里导包得时候一定要注意是android.hardware.Camera
+
+                camera.setPreviewCallback(CameraActivity.this);
                 //此处也可以设置摄像头参数
 
                 WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
                 Display display  = wm.getDefaultDisplay();//得到当前屏幕
                 Camera.Parameters parameters = camera.getParameters();//得到摄像头的参数
                 parameters.setJpegQuality(100);//设置照片的质量
-                //parameters.setPictureSize(display.getHeight(), display.getWidth());//设置照片的大小，默认是和     屏幕一样大
+                parameters.setPictureSize(display.getHeight(), display.getWidth());//设置照片的大小，默认是和     屏幕一样大
                 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);// 连续对焦模式
                 camera.setParameters(parameters);
+
 
                 //设置角度，此处 CameraId 我默认 为 0 （后置）
                 // CameraId 也可以 通过 参考 Camera.open() 源码 方法获取
@@ -204,5 +213,19 @@ public class CameraActivity extends AppCompatActivity{
             result = (info.orientation - degrees + 360) % 360;
         }
         camera.setDisplayOrientation(result);
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] bytes, Camera camera) {
+        if(isAlis){
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            //Bitmap bitmapzip = Utils.compressImage(bitmap);
+            DataEvent d = new DataEvent();
+            d.setType(CameraActivity.this.getIntent().getIntExtra("type",-1));
+            d.setImg(Utils.bitmapToBase64(bitmap));
+            EventBus.getDefault().post(d);
+            finish();
+        }
+        Log.i("wsy","xxxxxx");
     }
 }
