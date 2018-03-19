@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,11 +30,10 @@ import java.io.IOException;
  * 照相机界面
  * 拍照并且回传给MainActivity
  * */
-public class CameraActivity extends AppCompatActivity implements Camera.PreviewCallback{
+public class CameraActivity extends AppCompatActivity{
 
     private Camera camera;
     private boolean isPreview = false;
-    private boolean isAlis = false;
     private ImageView ex;
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -66,7 +63,6 @@ public class CameraActivity extends AppCompatActivity implements Camera.PreviewC
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isAlis = true;
 //                WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
 //                Display display  = wm.getDefaultDisplay();//得到当前屏幕
 
@@ -122,7 +118,6 @@ public class CameraActivity extends AppCompatActivity implements Camera.PreviewC
                 // Camera,open() 默认返回的后置摄像头信息
                 camera = Camera.open();//打开硬件摄像头，这里导包得时候一定要注意是android.hardware.Camera
 
-                camera.setPreviewCallback(CameraActivity.this);
                 //此处也可以设置摄像头参数
 
                 WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
@@ -215,17 +210,4 @@ public class CameraActivity extends AppCompatActivity implements Camera.PreviewC
         camera.setDisplayOrientation(result);
     }
 
-    @Override
-    public void onPreviewFrame(byte[] bytes, Camera camera) {
-        if(isAlis){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            //Bitmap bitmapzip = Utils.compressImage(bitmap);
-            DataEvent d = new DataEvent();
-            d.setType(CameraActivity.this.getIntent().getIntExtra("type",-1));
-            d.setImg(Utils.bitmapToBase64(bitmap));
-            EventBus.getDefault().post(d);
-            finish();
-        }
-        Log.i("wsy","xxxxxx");
-    }
 }
