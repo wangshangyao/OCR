@@ -1,7 +1,6 @@
 package com.bh.ocr.activuty;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,15 +8,11 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -28,7 +23,6 @@ import com.bh.ocr.utils.Utils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * 照相机界面
@@ -134,9 +128,9 @@ public class CameraActivity extends AppCompatActivity{
                 //这里不能有 窗口的宽高 要不然 8.0 预览会白屏
 
 //                Camera.Size closelyPreSize = Utils.getCloselyPreSize(display.getWidth(), display.getHeight(), parameters.getSupportedPreviewSizes());
-                parameters.setPreviewSize(1920,1080);
+                parameters.setPreviewSize(1920,1080);//设置预览尺寸
 //                parameters.setPreviewSize(parameters.getPictureSize().width,parameters.getPictureSize().height);
-                parameters.setPictureSize(1920,1080);
+                parameters.setPictureSize(1920,1080);//设置照片尺寸
                 //parameters.setPictureSize(display.getWidth(), display.getHeight());//设置照片的大小
 
                 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);// 连续对焦模式

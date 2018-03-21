@@ -65,6 +65,7 @@ public class Utils implements IModel{
             public void onResponse(Call call, Response response) throws IOException {
                 string = response.body().string();
                 m.getCall(string);
+                Log.i("wsy",string);
             }
         });
         return string;
@@ -124,7 +125,7 @@ public class Utils implements IModel{
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 90;
-        while (baos.toByteArray().length / 1024 > 59) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+        while (baos.toByteArray().length / 1024 > 100) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
             baos.reset(); // 重置baos即清空baos
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
             options -= 5;// 每次都减少5
@@ -204,13 +205,13 @@ public class Utils implements IModel{
             retX = w/2-img.getHeight()/2;
             retY = h/2-img.getWidth()/2;
             Log.i("wsy","++++1920+++");
-        }else if(widthPixels <= 1090 && heightPixels<=1820){
+        }/*else if(widthPixels <= 1090 && heightPixels<=1820){
             nw = (int) (w/2+img.getHeight()/2*0.5);
             nh = (int) (h/2+img.getWidth()/2*0.5);
             retX = (int) (w/2-img.getHeight()/2);
             retY = (int) (h/2-img.getWidth()/2);
             Log.i("wsy","++++1090+++");
-        }else if(widthPixels <= 1460 && heightPixels<=2580){
+        }*/else if(widthPixels <= 1460 && heightPixels<=2580){
             nw = (int) (w/2+img.getHeight()/2*0.4);
             nh = (int) (h/2+img.getWidth()/2*0.4);
             retX = (int) (w/2-img.getHeight()/2*0.75);
