@@ -11,26 +11,22 @@ import com.bh.ocr.R;
  * 加载提醒对话框
  */
 public class CustomDialog extends ProgressDialog {
-    public CustomDialog(Context context)
-    {
+    public CustomDialog(Context context) {
         super(context);
     }
 
-    public CustomDialog(Context context, int theme)
-    {
+    public CustomDialog(Context context, int theme) {
         super(context, theme);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         init(getContext());
     }
 
-    private void init(Context context)
-    {
+    private void init(Context context) {
         //设置不可取消，点击其他区域不能取消，实际中可以抽出去封装供外包设置
         setCancelable(false);
         setCanceledOnTouchOutside(false);
@@ -43,8 +39,7 @@ public class CustomDialog extends ProgressDialog {
     }
 
     @Override
-    public void show()
-    {
+    public void show() {
         super.show();
     }
 }
