@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -71,17 +72,14 @@ public class CameraActivity extends AppCompatActivity{
                 camera.takePicture(null, null, new Camera.PictureCallback() {
                     @Override
                     public void onPictureTaken(byte[] data, Camera camera) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                        Bitmap bitmapzip = Utils.compressImage(bitmap);
-                        Bitmap bitmap1 = Utils.ImageCropWithRect(bitmapzip,ex,CameraActivity.this);
-
-
-
+                        Bitmap mbitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        Bitmap sizeBitmap = Bitmap.createScaledBitmap(mbitmap, 1920, 1080, true);
+                        Bitmap rectBitmap = Bitmap.createBitmap(sizeBitmap, 340, 130, 1250, 840);//截取
 //                        Log.i("wsy",bitmapzip.getWidth()+"    "+bitmapzip.getHeight());
 //                        Log.i("wsy",bitmap.getWidth()+"    "+bitmap.getHeight());
                         DataEvent d = new DataEvent();
                         d.setType(CameraActivity.this.getIntent().getIntExtra("type",-1));
-                        d.setImg(Utils.bitmapToBase64(bitmap1));
+                        d.setImg(Utils.bitmapToBase64(rectBitmap));
                         EventBus.getDefault().post(d);
                         finish();
                     }
@@ -89,8 +87,6 @@ public class CameraActivity extends AppCompatActivity{
             }
         });
     }
-
-
 
     @Override
     protected void onPause() {

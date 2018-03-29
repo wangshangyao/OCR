@@ -2,6 +2,7 @@ package com.bh.ocr.activuty;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,7 +13,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
         EventBus.getDefault().register(this);
+
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
+        Display display  = wm.getDefaultDisplay();//得到当前屏幕
+        Log.e("wsy",display.getWidth()+"   主页   "+display.getHeight());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
